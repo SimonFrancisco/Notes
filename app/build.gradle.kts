@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.ksp)
+
 }
 
 android {
@@ -26,6 +29,9 @@ android {
             )
         }
     }
+    buildFeatures{
+        viewBinding = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -45,4 +51,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+    implementation(libs.viewModel)
+    implementation(libs.room)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
 }
