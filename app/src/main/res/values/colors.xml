@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="blood_red">#880808</color>
+    <color name="burgundy">#800020</color>
+    <color name="brick_red">#AA4A44</color>
+    <color name="pastel_red">#FAA0A0</color>
 </resources>
