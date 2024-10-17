@@ -1,4 +1,4 @@
-package com.example.notes.presentation
+package com.example.notes.presentation.noteFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.notes.databinding.FragmentNoteBinding
+import com.example.notes.domain.entity.Mode
 
 
 class NoteFragment : Fragment() {
@@ -16,8 +17,8 @@ class NoteFragment : Fragment() {
     private var _binding: FragmentNoteBinding? = null
     private val binding: FragmentNoteBinding
         get() = _binding ?: throw RuntimeException("FragmentNoteBinding")
-
     private val args by navArgs<NoteFragmentArgs>()
+
     private val viewModel: NoteViewModel by lazy {
         ViewModelProvider(this)[NoteViewModel::class.java]
     }
@@ -32,16 +33,24 @@ class NoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launchAddMode()
-      //launchDraft()
+        launchMode()
+        launchAllNotesFragment()
+    }
+    private fun launchAllNotesFragment(){
         viewModel.close.observe(viewLifecycleOwner) {
             findNavController().navigate(NoteFragmentDirections.actionNoteFragmentToAllNotesFragment())
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun launchMode(){
+        when(args.mode){
+            Mode.ADD -> launchAddMode()
+            Mode.EDIT -> launchEditMode()
+        }
     }
 
     private fun launchAddMode() {
@@ -49,6 +58,18 @@ class NoteFragment : Fragment() {
             viewModel.addNote(binding.etTopic.text.toString(), binding.etContent.text.toString())
         }
     }
+    private fun launchEditMode() {
+        viewModel.getNote(args.noteId)
+        viewModel.note.observe(viewLifecycleOwner){
+            binding.etTopic.setText(it.topic)
+            binding.etContent.setText(it.content)
+        }
+        binding.saveButton.setOnClickListener {
+            viewModel.editNote(binding.etTopic.text.toString(), binding.etContent.text.toString())
+        }
+    }
+
+
 //    private fun launchDraft(){
 //        if (requireActivity().onBackPressedDispatcher.onBackPressed()){
 //            viewModel.draftNote(binding.etTopic.text.toString(), binding.etContent.text.toString())

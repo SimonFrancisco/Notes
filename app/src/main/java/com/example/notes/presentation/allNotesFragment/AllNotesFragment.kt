@@ -1,4 +1,4 @@
-package com.example.notes.presentation
+package com.example.notes.presentation.allNotesFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,26 +21,22 @@ class AllNotesFragment : Fragment() {
     private val viewModel: AllNotesViewModel by lazy {
         ViewModelProvider(this)[AllNotesViewModel::class.java]
     }
-    private lateinit var noteListAdapter:NoteListAdapter
+    private lateinit var noteListAdapter: NoteListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllNotesBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
-        viewModel.notes.observe(viewLifecycleOwner){
-            noteListAdapter.submitList(it)
-        }
-        binding.buttonAddShopItem.setOnClickListener {
-            launchNoteFragment(mode = Mode.ADD, 0)
-        }
+        observeViewModel()
+        addNote()
+        setUpOnClickListener()
     }
 
     override fun onDestroyView() {
@@ -48,31 +44,55 @@ class AllNotesFragment : Fragment() {
         _binding = null
     }
 
-    private fun launchNoteFragment(mode: Mode, noteId: Int) {
+    private fun observeViewModel() {
+        viewModel.notes.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                binding.rvNotes.visibility = View.GONE
+                binding.tvWarning.visibility = View.VISIBLE
+            } else {
+                binding.rvNotes.visibility = View.VISIBLE
+                binding.tvWarning.visibility = View.GONE
+            }
+            noteListAdapter.submitList(it)
+        }
+
+    }
+
+    private fun addNote() {
+        binding.buttonAddShopItem.setOnClickListener {
+            launchNoteFragment()
+        }
+    }
+
+    private fun launchNoteFragment(mode: Mode = Mode.ADD, noteId: Int = DEFAULT_NOTE_ID) {
         when (mode) {
             Mode.ADD -> {
                 findNavController().navigate(
                     AllNotesFragmentDirections.actionAllNotesFragmentToNoteFragment(
                         mode,
-                        DEFAULT_NOTE_ID
+                        noteId
                     )
                 )
             }
+
             Mode.EDIT -> {
                 findNavController().navigate(
-                    AllNotesFragmentDirections.actionAllNotesFragmentToNoteFragment(mode, noteId)
+                    AllNotesFragmentDirections.actionAllNotesFragmentToNoteFragment(
+                        mode,
+                        noteId
+                    )
                 )
             }
         }
-
     }
-    private fun setUpRecyclerView(){
+
+    private fun setUpRecyclerView() {
         noteListAdapter = NoteListAdapter()
         binding.rvNotes.adapter = noteListAdapter
         setUpSwipeListener(binding.rvNotes)
     }
 
-    private fun setUpSwipeListener(recyclerView: RecyclerView){
+    private fun setUpSwipeListener(recyclerView: RecyclerView) {
         val callBack = object : ItemTouchHelper.SimpleCallback(
             0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
@@ -92,6 +112,12 @@ class AllNotesFragment : Fragment() {
         }
         val itemTouchHelper = ItemTouchHelper(callBack)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    private fun setUpOnClickListener() {
+        noteListAdapter.onNoteClickListener = {
+            launchNoteFragment(Mode.EDIT, it.id)
+        }
     }
 
     companion object {

@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.AllNotesFragment">
+    tools:context=".presentation.allNotesFragment.AllNotesFragment">
 
     <TextView
+        android:id="@+id/tv_warning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

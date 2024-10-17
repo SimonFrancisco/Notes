@@ -1,4 +1,4 @@
-package com.example.notes.presentation
+package com.example.notes.presentation.noteFragment
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -21,7 +21,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val _closeScreen = MutableLiveData<Unit>()
     val close:LiveData<Unit>
         get() = _closeScreen
-    private val note: LiveData<Note>
+     val note: LiveData<Note>
         get() = _note
 
     fun getNote(noteId: Int) {
