@@ -21,7 +21,8 @@
         tools:layout="@layout/fragment_note" >
         <action
             android:id="@+id/action_noteFragment_to_allNotesFragment"
-            app:destination="@id/allNotesFragment" />
+            app:destination="@id/allNotesFragment"
+            app:popUpTo="@id/noteFragment" />
         <argument
             android:name="mode"
             app:argType="com.example.notes.domain.entity.Mode" />

@@ -63,7 +63,6 @@ class AllNotesFragment : Fragment() {
             launchNoteFragment()
         }
     }
-
     private fun launchNoteFragment(mode: Mode = Mode.ADD, noteId: Int = DEFAULT_NOTE_ID) {
         when (mode) {
             Mode.ADD -> {
@@ -74,7 +73,6 @@ class AllNotesFragment : Fragment() {
                     )
                 )
             }
-
             Mode.EDIT -> {
                 findNavController().navigate(
                     AllNotesFragmentDirections.actionAllNotesFragmentToNoteFragment(

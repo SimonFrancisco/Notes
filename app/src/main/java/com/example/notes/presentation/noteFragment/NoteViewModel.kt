@@ -19,9 +19,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val getNoteByIdUseCase = GetNoteByIdUseCase(repository)
     private val _note = MutableLiveData<Note>()
     private val _closeScreen = MutableLiveData<Unit>()
-    val close:LiveData<Unit>
+    val closeScreen: LiveData<Unit>
         get() = _closeScreen
-     val note: LiveData<Note>
+    val note: LiveData<Note>
         get() = _note
 
     fun getNote(noteId: Int) {
@@ -44,19 +44,33 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun editNote(topic: String, content: String) {
+    fun editNote(topic: String, content: String, isDraft: Boolean = false) {
         _note.value?.let {
             viewModelScope.launch {
                 val note = it.copy(
                     topic = topic,
-                    content = content
+                    content = content,
+                    isDraft = isDraft
                 )
                 editNoteUseCase.invoke(note)
                 finishTask()
             }
         }
     }
+
     fun draftNote(topic: String, content: String) {
+        _note.value?.let {
+            viewModelScope.launch {
+                val note = it.copy(
+                    topic = topic,
+                    content = content,
+                    isDraft = true
+                )
+                editNoteUseCase.invoke(note)
+                finishTask()
+            }
+            return
+        }
         viewModelScope.launch {
             val note = Note(
                 topic = topic,
@@ -67,6 +81,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
             addNoteUseCase.invoke(note)
             finishTask()
         }
+
     }
 
     private fun finishTask() {

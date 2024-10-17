@@ -7,13 +7,14 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
-activity = "1.9.2"
+activity = "1.9.3"
 constraintlayout = "2.1.4"
 viewModel_version = "2.8.6"
 room_version = "2.6.1"
-navigation = "2.8.2"
+navigation = "2.8.3"
 ksp_version = "2.0.21-1.0.25"
 databindingRuntime = "8.7.1"
+kapt = "2.0.21"
 
 
 [libraries]
@@ -31,13 +32,14 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_ver
 viewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewModel_version" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigation" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigation" }
-androidx-databinding-runtime = { group = "androidx.databinding", name = "databinding-runtime", version.ref = "databindingRuntime" }
+#androidx-databinding-runtime = { group = "androidx.databinding", name = "databinding-runtime", version.ref = "databindingRuntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }
+kapt = {id = "org.jetbrains.kotlin.kapt", version.ref ="kapt"}
 kotlin-parcelize = {id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin"}
 
 

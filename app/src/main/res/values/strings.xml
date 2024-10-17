@@ -1,10 +1,8 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">Заметки</string>
     <string name="no_notes">Нет заметок</string>
-    <string name="add_note">Add note</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="topic">Topic:</string>
-    <string name="content">Content:</string>
-    <string name="save_note">Save note</string>
+    <string name="add_note">Добавить заметку</string>
+    <string name="topic">Тема:</string>
+    <string name="content">Содержание:</string>
+    <string name="save_note">Сохранить заметку</string>
 </resources>

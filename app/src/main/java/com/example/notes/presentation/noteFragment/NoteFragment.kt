@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -16,8 +17,10 @@ class NoteFragment : Fragment() {
 
     private var _binding: FragmentNoteBinding? = null
     private val binding: FragmentNoteBinding
-        get() = _binding ?: throw RuntimeException("FragmentNoteBinding")
+        get() = _binding ?: throw RuntimeException("FragmentNoteBinding == null")
+
     private val args by navArgs<NoteFragmentArgs>()
+    private lateinit var mode: Mode
 
     private val viewModel: NoteViewModel by lazy {
         ViewModelProvider(this)[NoteViewModel::class.java]
@@ -33,12 +36,15 @@ class NoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mode = args.mode
         launchMode()
         launchAllNotesFragment()
+        saveDraft()
     }
-    private fun launchAllNotesFragment(){
-        viewModel.close.observe(viewLifecycleOwner) {
-            findNavController().navigate(NoteFragmentDirections.actionNoteFragmentToAllNotesFragment())
+
+    private fun launchAllNotesFragment() {
+        viewModel.closeScreen.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
         }
     }
     override fun onDestroyView() {
@@ -46,8 +52,8 @@ class NoteFragment : Fragment() {
         _binding = null
     }
 
-    private fun launchMode(){
-        when(args.mode){
+    private fun launchMode() {
+        when (mode) {
             Mode.ADD -> launchAddMode()
             Mode.EDIT -> launchEditMode()
         }
@@ -55,25 +61,33 @@ class NoteFragment : Fragment() {
 
     private fun launchAddMode() {
         binding.saveButton.setOnClickListener {
-            viewModel.addNote(binding.etTopic.text.toString(), binding.etContent.text.toString())
+            viewModel.addNote(
+                binding.etTopic.text.toString().trim(),
+                binding.etContent.text.toString().trim()
+            )
         }
     }
+
     private fun launchEditMode() {
         viewModel.getNote(args.noteId)
-        viewModel.note.observe(viewLifecycleOwner){
+        viewModel.note.observe(viewLifecycleOwner) {
             binding.etTopic.setText(it.topic)
             binding.etContent.setText(it.content)
         }
         binding.saveButton.setOnClickListener {
-            viewModel.editNote(binding.etTopic.text.toString(), binding.etContent.text.toString())
+            viewModel.editNote(
+                binding.etTopic.text.toString().trim(),
+                binding.etContent.text.toString().trim(),
+            )
         }
     }
 
-
-//    private fun launchDraft(){
-//        if (requireActivity().onBackPressedDispatcher.onBackPressed()){
-//            viewModel.draftNote(binding.etTopic.text.toString(), binding.etContent.text.toString())
-//        }
-//    }
-
+    private fun saveDraft() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.draftNote(
+                binding.etTopic.text.toString().trim(),
+                binding.etContent.text.toString().trim()
+            )
+        }
+    }
 }

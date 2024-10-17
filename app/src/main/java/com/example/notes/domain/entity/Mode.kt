@@ -4,6 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-enum class Mode() : Parcelable {
+enum class Mode : Parcelable {
     ADD, EDIT
 }
