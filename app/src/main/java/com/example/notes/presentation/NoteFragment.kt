@@ -33,6 +33,7 @@ class NoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         launchAddMode()
+      //launchDraft()
         viewModel.close.observe(viewLifecycleOwner) {
             findNavController().navigate(NoteFragmentDirections.actionNoteFragmentToAllNotesFragment())
         }
@@ -48,5 +49,10 @@ class NoteFragment : Fragment() {
             viewModel.addNote(binding.etTopic.text.toString(), binding.etContent.text.toString())
         }
     }
+//    private fun launchDraft(){
+//        if (requireActivity().onBackPressedDispatcher.onBackPressed()){
+//            viewModel.draftNote(binding.etTopic.text.toString(), binding.etContent.text.toString())
+//        }
+//    }
 
 }

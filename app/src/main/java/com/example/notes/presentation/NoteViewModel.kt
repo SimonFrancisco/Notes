@@ -56,6 +56,18 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+    fun draftNote(topic: String, content: String) {
+        viewModelScope.launch {
+            val note = Note(
+                topic = topic,
+                content = content,
+                isFavourite = false,
+                isDraft = true
+            )
+            addNoteUseCase.invoke(note)
+            finishTask()
+        }
+    }
 
     private fun finishTask() {
         _closeScreen.value = Unit
