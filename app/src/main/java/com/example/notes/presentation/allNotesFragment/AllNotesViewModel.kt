@@ -14,13 +14,13 @@ class AllNotesViewModel(application: Application) : AndroidViewModel(application
     private val repository = NoteRepositoryImpl(application)
     private val getNotesUseCase = GetNotesUseCase(repository)
     private val deleteNoteUseCase = DeleteNoteUseCase(repository)
-    private val _notes = getNotesUseCase.invoke()
+    private val _notes = getNotesUseCase()
     val notes: LiveData<List<Note>>
         get() = _notes
 
     fun deleteNote(note: Note){
         viewModelScope.launch {
-            deleteNoteUseCase.invoke(note)
+            deleteNoteUseCase(note)
         }
     }
 }

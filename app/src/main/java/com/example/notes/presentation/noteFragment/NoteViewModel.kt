@@ -26,7 +26,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getNote(noteId: Int) {
         viewModelScope.launch {
-            val note = getNoteByIdUseCase.invoke(noteId)
+            val note = getNoteByIdUseCase(noteId)
             _note.value = note
         }
     }
@@ -39,7 +39,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
                 isFavourite = false,
                 isDraft = false
             )
-            addNoteUseCase.invoke(note)
+            addNoteUseCase(note)
             finishTask()
         }
     }
@@ -52,7 +52,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
                     content = content,
                     isDraft = isDraft
                 )
-                editNoteUseCase.invoke(note)
+                editNoteUseCase(note)
                 finishTask()
             }
         }
@@ -66,7 +66,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
                     content = content,
                     isDraft = true
                 )
-                editNoteUseCase.invoke(note)
+                editNoteUseCase(note)
                 finishTask()
             }
             return
@@ -78,7 +78,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
                 isFavourite = false,
                 isDraft = true
             )
-            addNoteUseCase.invoke(note)
+            addNoteUseCase(note)
             finishTask()
         }
 
