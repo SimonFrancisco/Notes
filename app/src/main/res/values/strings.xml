@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Заметки</string>
-    <string name="no_notes">Нет заметок</string>
+    <string name="no_notes">Нет заметок!</string>
     <string name="add_note">Добавить заметку</string>
     <string name="topic">Тема:</string>
     <string name="content">Содержание:</string>
     <string name="save_note">Сохранить заметку</string>
+    <string name="search">Search</string>
 </resources>

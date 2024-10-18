@@ -22,4 +22,7 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes WHERE id=:noteId LIMIT 1")
     suspend fun getNoteById(noteId: Int): NoteDb
+
+    @Query("SELECT * FROM notes WHERE topic LIKE:noteTopic")
+    fun searchNotesByTopic(noteTopic: String): LiveData<List<NoteDb>>
 }

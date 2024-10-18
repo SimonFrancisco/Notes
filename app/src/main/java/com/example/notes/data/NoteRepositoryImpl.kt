@@ -14,8 +14,14 @@ class NoteRepositoryImpl(application: Application) : NoteRepository {
             noteMapper.mapListDbToListEntity(it)
         }
     }
+
     override fun getFavouriteNotes(): LiveData<List<Note>> {
         return noteDao.getFavouriteNotes().map {
+            noteMapper.mapListDbToListEntity(it)
+        }
+    }
+    override fun searchNotesByTopic(noteTopic: String): LiveData<List<Note>> {
+        return noteDao.searchNotesByTopic(noteTopic).map {
             noteMapper.mapListDbToListEntity(it)
         }
     }
@@ -23,12 +29,15 @@ class NoteRepositoryImpl(application: Application) : NoteRepository {
         val noteDb = noteDao.getNoteById(id)
         return noteMapper.mapDbToEntity(noteDb)
     }
+
     override suspend fun addNote(note: Note) {
         noteDao.addNote(noteMapper.mapEntityToDb(note))
     }
+
     override suspend fun deleteNote(note: Note) {
         noteDao.deleteNote(note.id)
     }
+
     override suspend fun editNote(note: Note) {
         noteDao.addNote(noteMapper.mapEntityToDb(note))
     }

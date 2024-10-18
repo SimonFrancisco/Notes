@@ -1,19 +1,28 @@
 package com.example.notes.presentation.allNotesFragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.notes.R
 import com.example.notes.databinding.FragmentAllNotesBinding
 import com.example.notes.domain.entity.Mode
 import com.example.notes.presentation.recycleView.NoteListAdapter
 
-class AllNotesFragment : Fragment() {
+class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
     private var _binding: FragmentAllNotesBinding? = null
     private val binding: FragmentAllNotesBinding
         get() = _binding ?: throw RuntimeException("FragmentAllNotesBinding == null")
@@ -31,12 +40,14 @@ class AllNotesFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
         observeViewModel()
         addNote()
         setUpOnClickListener()
+        setMenu()
     }
 
     override fun onDestroyView() {
@@ -44,14 +55,35 @@ class AllNotesFragment : Fragment() {
         _binding = null
     }
 
+    private fun setMenu() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menu.clear()
+                menuInflater.inflate(R.menu.first_sreen_menu, menu)
+                val menuSearch = menu.findItem(
+                    R.id.menu_search
+                ).actionView as SearchView
+                menuSearch.isSubmitButtonEnabled = true
+                menuSearch.setOnQueryTextListener(this@AllNotesFragment)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
     private fun observeViewModel() {
         viewModel.notes.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.rvNotes.visibility = View.GONE
-                binding.tvWarning.visibility = View.VISIBLE
-            } else {
-                binding.rvNotes.visibility = View.VISIBLE
-                binding.tvWarning.visibility = View.GONE
+            with(binding) {
+                if (it.isEmpty()) {
+                    rvNotes.visibility = View.GONE
+                    cvWarning.visibility = View.VISIBLE
+                } else {
+                    rvNotes.visibility = View.VISIBLE
+                    cvWarning.visibility = View.GONE
+                }
             }
             noteListAdapter.submitList(it)
         }
@@ -63,6 +95,7 @@ class AllNotesFragment : Fragment() {
             launchNoteFragment()
         }
     }
+
     private fun launchNoteFragment(mode: Mode = Mode.ADD, noteId: Int = DEFAULT_NOTE_ID) {
         when (mode) {
             Mode.ADD -> {
@@ -73,6 +106,7 @@ class AllNotesFragment : Fragment() {
                     )
                 )
             }
+
             Mode.EDIT -> {
                 findNavController().navigate(
                     AllNotesFragmentDirections.actionAllNotesFragmentToNoteFragment(
@@ -120,6 +154,28 @@ class AllNotesFragment : Fragment() {
 
     companion object {
         private const val DEFAULT_NOTE_ID = 0
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            searchNotesByTopic(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) {
+            searchNotesByTopic(newText)
+        }
+        return true
+    }
+
+    private fun searchNotesByTopic(noteTopic: String) {
+        val searchNote = "%$noteTopic%"
+        viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
+            val list = it
+            noteListAdapter.submitList(list)
+        }
     }
 
 }
