@@ -1,6 +1,5 @@
 package com.example.notes.presentation.allNotesFragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -55,6 +54,36 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         _binding = null
     }
 
+    private fun setUpRecyclerView() {
+        noteListAdapter = NoteListAdapter()
+        binding.rvNotes.adapter = noteListAdapter
+        setUpSwipeListener(binding.rvNotes)
+    }
+    private fun observeViewModel() {
+        viewModel.notes.observe(viewLifecycleOwner) {
+            with(binding) {
+                if (it.isEmpty()) {
+                    rvNotes.visibility = View.GONE
+                    cvWarning.visibility = View.VISIBLE
+                } else {
+                    rvNotes.visibility = View.VISIBLE
+                    cvWarning.visibility = View.GONE
+                }
+            }
+            noteListAdapter.submitList(it)
+        }
+
+    }
+    private fun addNote() {
+        binding.buttonAddShopItem.setOnClickListener {
+            launchNoteFragment()
+        }
+    }
+    private fun setUpOnClickListener() {
+        noteListAdapter.onNoteClickListener = {
+            launchNoteFragment(Mode.EDIT, it.id)
+        }
+    }
     private fun setMenu() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -74,27 +103,6 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun observeViewModel() {
-        viewModel.notes.observe(viewLifecycleOwner) {
-            with(binding) {
-                if (it.isEmpty()) {
-                    rvNotes.visibility = View.GONE
-                    cvWarning.visibility = View.VISIBLE
-                } else {
-                    rvNotes.visibility = View.VISIBLE
-                    cvWarning.visibility = View.GONE
-                }
-            }
-            noteListAdapter.submitList(it)
-        }
-
-    }
-
-    private fun addNote() {
-        binding.buttonAddShopItem.setOnClickListener {
-            launchNoteFragment()
-        }
-    }
 
     private fun launchNoteFragment(mode: Mode = Mode.ADD, noteId: Int = DEFAULT_NOTE_ID) {
         when (mode) {
@@ -106,7 +114,6 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
                     )
                 )
             }
-
             Mode.EDIT -> {
                 findNavController().navigate(
                     AllNotesFragmentDirections.actionAllNotesFragmentToNoteFragment(
@@ -116,12 +123,6 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
                 )
             }
         }
-    }
-
-    private fun setUpRecyclerView() {
-        noteListAdapter = NoteListAdapter()
-        binding.rvNotes.adapter = noteListAdapter
-        setUpSwipeListener(binding.rvNotes)
     }
 
     private fun setUpSwipeListener(recyclerView: RecyclerView) {
@@ -146,15 +147,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun setUpOnClickListener() {
-        noteListAdapter.onNoteClickListener = {
-            launchNoteFragment(Mode.EDIT, it.id)
-        }
-    }
 
-    companion object {
-        private const val DEFAULT_NOTE_ID = 0
-    }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {
@@ -169,13 +162,13 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         }
         return true
     }
-
     private fun searchNotesByTopic(noteTopic: String) {
         val searchNote = "%$noteTopic%"
         viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
-            val list = it
-            noteListAdapter.submitList(list)
+            noteListAdapter.submitList(it)
         }
     }
-
+    companion object {
+        private const val DEFAULT_NOTE_ID = 0
+    }
 }

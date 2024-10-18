@@ -17,7 +17,6 @@ class NoteListAdapter : ListAdapter<Note, NoteViewHolder>(NoteDiffCallBack()) {
             NOTE_ADD -> {
                 R.layout.note_add
             }
-
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
