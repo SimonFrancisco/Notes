@@ -39,7 +39,6 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
@@ -51,6 +50,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Log.d("onDestroyView","ViewDestroyed")
         _binding = null
     }
 
@@ -59,6 +59,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.rvNotes.adapter = noteListAdapter
         setUpSwipeListener(binding.rvNotes)
     }
+
     private fun observeViewModel() {
         viewModel.notes.observe(viewLifecycleOwner) {
             with(binding) {
@@ -74,16 +75,19 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
     }
+
     private fun addNote() {
         binding.buttonAddShopItem.setOnClickListener {
             launchNoteFragment()
         }
     }
+
     private fun setUpOnClickListener() {
         noteListAdapter.onNoteClickListener = {
             launchNoteFragment(Mode.EDIT, it.id)
         }
     }
+
     private fun setMenu() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -94,6 +98,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
                     R.id.menu_search
                 ).actionView as SearchView
                 menuSearch.isSubmitButtonEnabled = true
+
                 menuSearch.setOnQueryTextListener(this@AllNotesFragment)
             }
 
@@ -147,8 +152,6 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-
-
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {
             searchNotesByTopic(query)
@@ -159,15 +162,23 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onQueryTextChange(newText: String?): Boolean {
         if (newText != null) {
             searchNotesByTopic(newText)
+            //Log.d("searchNotesByTopic", newText)
+
         }
         return true
     }
+
     private fun searchNotesByTopic(noteTopic: String) {
+        //Log.d("searchNotesByTopic", noteTopic)
         val searchNote = "%$noteTopic%"
-        viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
-            noteListAdapter.submitList(it)
+        if (view != null) {
+            //Log.d("searchNotesByTopic", noteTopic)
+            viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
+                noteListAdapter.submitList(it)
+            }
         }
     }
+
     companion object {
         private const val DEFAULT_NOTE_ID = 0
     }
