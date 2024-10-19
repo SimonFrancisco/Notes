@@ -162,17 +162,19 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onQueryTextChange(newText: String?): Boolean {
         if (newText != null) {
             searchNotesByTopic(newText)
-            //Log.d("searchNotesByTopic", newText)
-
         }
         return true
     }
 
     private fun searchNotesByTopic(noteTopic: String) {
-        //Log.d("searchNotesByTopic", noteTopic)
         val searchNote = "%$noteTopic%"
         if (view != null) {
-            //Log.d("searchNotesByTopic", noteTopic)
+            /***
+             * Check whether view is null because an empty string is sent to this
+             * method by onQueryTextChange when element on the list is clicked,
+             * at this moment onDestroyView is called and therefore viewLifecycleOwner
+             * stops existing, this leads to bags when observing LiveData.
+             */
             viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
                 noteListAdapter.submitList(it)
             }
