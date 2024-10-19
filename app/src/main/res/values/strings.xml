@@ -6,4 +6,10 @@
     <string name="content">Содержание:</string>
     <string name="save_note">Сохранить заметку</string>
     <string name="search">Search</string>
+    <string name="note_draft">Draft</string>
+    <string name="note_saved">Saved</string>
+    <string name="delete_note">Delete note</string>
+    <string name="delete_confirmation">Do you really want to delete this note?</string>
+    <string name="delete_button_alert">Delete</string>
+    <string name="cancel_button_alert">Cancel</string>
 </resources>

@@ -14,9 +14,11 @@ class NoteListAdapter : ListAdapter<Note, NoteViewHolder>(NoteDiffCallBack()) {
             NOTE_DRAFT -> {
                 R.layout.note_draft
             }
+
             NOTE_ADD -> {
                 R.layout.note_add
             }
+
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
@@ -26,10 +28,18 @@ class NoteListAdapter : ListAdapter<Note, NoteViewHolder>(NoteDiffCallBack()) {
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = getItem(position)
-        holder.view.setOnClickListener {
-            onNoteClickListener?.invoke(note)
+
+        with(holder) {
+            view.setOnClickListener {
+                onNoteClickListener?.invoke(note)
+            }
+            tvTopic.text = note.topic
+            tvContent.text = note.content
+            when (note.isDraft) {
+                true -> tvStatus.text = view.context.getString(R.string.note_draft)
+                false -> tvStatus.text = view.context.getString(R.string.note_saved)
+            }
         }
-        holder.tvTopic.text = note.topic
     }
 
     override fun getItemViewType(position: Int): Int {

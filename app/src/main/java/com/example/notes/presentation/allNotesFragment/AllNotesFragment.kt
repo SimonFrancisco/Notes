@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.R
 import com.example.notes.databinding.FragmentAllNotesBinding
 import com.example.notes.domain.entity.Mode
@@ -50,14 +48,14 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Log.d("onDestroyView","ViewDestroyed")
         _binding = null
     }
 
     private fun setUpRecyclerView() {
         noteListAdapter = NoteListAdapter()
+        binding.rvNotes.setHasFixedSize(true)
         binding.rvNotes.adapter = noteListAdapter
-        setUpSwipeListener(binding.rvNotes)
+        //setUpSwipeListener(binding.rvNotes)
     }
 
     private fun observeViewModel() {
@@ -97,13 +95,12 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
                 val menuSearch = menu.findItem(
                     R.id.menu_search
                 ).actionView as SearchView
-                menuSearch.isSubmitButtonEnabled = true
-
+                menuSearch.isSubmitButtonEnabled = false
                 menuSearch.setOnQueryTextListener(this@AllNotesFragment)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return true
+                return false
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
@@ -119,6 +116,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
                     )
                 )
             }
+
             Mode.EDIT -> {
                 findNavController().navigate(
                     AllNotesFragmentDirections.actionAllNotesFragmentToNoteFragment(
@@ -129,58 +127,29 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
     }
-
-    private fun setUpSwipeListener(recyclerView: RecyclerView) {
-        val callBack = object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val note = noteListAdapter.currentList[viewHolder.adapterPosition]
-                viewModel.deleteNote(note)
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(callBack)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-    }
-
     override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
-            searchNotesByTopic(query)
-        }
-        return true
+        return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
+
+        if (newText != null && view != null) {
+            /***
+             * Check whether view is null because an empty string is sent searchNotesByTopic
+             * when element on the list is clicked,
+             * at this moment onDestroyView is called and therefore viewLifecycleOwner
+             * stops existing, this leads to bags in this particular case when observing LiveData.
+             */
             searchNotesByTopic(newText)
         }
         return true
     }
-
     private fun searchNotesByTopic(noteTopic: String) {
         val searchNote = "%$noteTopic%"
-        if (view != null) {
-            /***
-             * Check whether view is null because an empty string is sent to this
-             * method by onQueryTextChange when element on the list is clicked,
-             * at this moment onDestroyView is called and therefore viewLifecycleOwner
-             * stops existing, this leads to bags when observing LiveData.
-             */
-            viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
-                noteListAdapter.submitList(it)
-            }
+        viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
+            noteListAdapter.submitList(it)
         }
     }
-
     companion object {
         private const val DEFAULT_NOTE_ID = 0
     }

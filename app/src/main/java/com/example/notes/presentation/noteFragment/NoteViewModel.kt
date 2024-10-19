@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.notes.data.NoteRepositoryImpl
 import com.example.notes.domain.entity.Note
 import com.example.notes.domain.usecases.AddNoteUseCase
+import com.example.notes.domain.usecases.DeleteNoteUseCase
 import com.example.notes.domain.usecases.EditNoteUseCase
 import com.example.notes.domain.usecases.GetNoteByIdUseCase
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val addNoteUseCase = AddNoteUseCase(repository)
     private val editNoteUseCase = EditNoteUseCase(repository)
     private val getNoteByIdUseCase = GetNoteByIdUseCase(repository)
+    private val deleteNoteUseCase = DeleteNoteUseCase(repository)
     private val _note = MutableLiveData<Note>()
     private val _closeScreen = MutableLiveData<Unit>()
     val closeScreen: LiveData<Unit>
@@ -55,6 +57,12 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
                 editNoteUseCase(note)
                 finishTask()
             }
+        }
+    }
+    fun deleteNote(note: Note) {
+        viewModelScope.launch {
+            deleteNoteUseCase(note)
+            finishTask()
         }
     }
 
