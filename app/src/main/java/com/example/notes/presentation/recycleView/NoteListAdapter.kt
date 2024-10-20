@@ -16,7 +16,6 @@ class NoteListAdapter : ListAdapter<Note, NoteViewHolder>(NoteDiffCallBack()) {
             NOTE_DRAFT -> {
                 R.layout.note_draft
             }
-
             NOTE_ADD -> {
                 R.layout.note_add
             }
