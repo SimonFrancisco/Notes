@@ -1,8 +1,8 @@
 package com.example.notes.domain.usecases
 
 import androidx.lifecycle.LiveData
-import com.example.notes.domain.repository.NoteRepository
 import com.example.notes.domain.entity.Note
+import com.example.notes.domain.repository.NoteRepository
 
 class GetFavouriteNotesUseCase(private val noteRepository: NoteRepository) {
 

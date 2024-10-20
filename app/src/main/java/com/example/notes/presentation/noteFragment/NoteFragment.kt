@@ -80,6 +80,7 @@ class NoteFragment : Fragment() {
                 menuInflater.inflate(R.menu.edit_note_menu, menu)
 
             }
+
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.deleteMenu -> {
@@ -88,6 +89,7 @@ class NoteFragment : Fragment() {
                         }
                         true
                     }
+
                     else -> false
                 }
             }
@@ -104,6 +106,7 @@ class NoteFragment : Fragment() {
             setNegativeButton(getString(R.string.cancel_button_alert), null)
         }.create().show()
     }
+
     private fun launchAddMode() {
         binding.saveButton.setOnClickListener {
             viewModel.addNote(
@@ -112,6 +115,7 @@ class NoteFragment : Fragment() {
             )
         }
     }
+
     private fun launchEditMode() {
         viewModel.getNote(args.noteId)
         viewModel.note.observe(viewLifecycleOwner) {
@@ -133,4 +137,5 @@ class NoteFragment : Fragment() {
             )
         }
     }
+
 }

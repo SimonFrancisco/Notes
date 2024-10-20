@@ -12,4 +12,7 @@
     <string name="delete_confirmation">Do you really want to delete this note?</string>
     <string name="delete_button_alert">Delete</string>
     <string name="cancel_button_alert">Cancel</string>
+    <string name="bottom_home_label">Home</string>
+    <string name="bottom_favourites_label">Favourites</string>
+    <string name="add_new_note">Add new note</string>
 </resources>

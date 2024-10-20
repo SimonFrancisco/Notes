@@ -11,7 +11,7 @@ interface NoteDao {
     @Query("SELECT * FROM notes ORDER BY id DESC")
     fun getNotes(): LiveData<List<NoteDb>>
 
-    @Query("SELECT * FROM notes WHERE isFavourite=:isFavourite")
+    @Query("SELECT * FROM notes WHERE isFavourite=:isFavourite ORDER BY id DESC")
     fun getFavouriteNotes(isFavourite: Boolean = true): LiveData<List<NoteDb>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

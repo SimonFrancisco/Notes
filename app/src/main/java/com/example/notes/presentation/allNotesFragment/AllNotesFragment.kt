@@ -29,6 +29,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
     }
     private lateinit var noteListAdapter: NoteListAdapter
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -106,6 +107,10 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                if (menuItem.itemId == R.id.bottom_favourite) {
+                    findNavController().navigate(AllNotesFragmentDirections.actionAllNotesFragmentToFavouriteNotes())
+                    return true
+                }
                 return false
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -133,6 +138,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
     }
+
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
@@ -162,4 +168,5 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
     companion object {
         private const val DEFAULT_NOTE_ID = 0
     }
+
 }
