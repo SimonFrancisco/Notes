@@ -15,7 +15,7 @@ The note is added or removed from favorites by pressing on it long enough, a sta
 
 <p align="center">
   <img img src= "https://github.com/user-attachments/assets/24be3fb9-d766-49ae-9de0-05fa2b70e576" width="45%" height="45%" align="left"> 
-  <img src= "https://github.com/user-attachments/assets/27e42e14-e024-4d1f-8d11-206aaa11234c" width="50%" height="50%" align="right">
+  <img src= "https://github.com/user-attachments/assets/27e42e14-e024-4d1f-8d11-206aaa11234c" width="45%" height="45%" align="right">
 </p>
 
 <p align="center">
