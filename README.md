@@ -1,6 +1,6 @@
 This is an Android Note App with Clean Architecture, MVVM, Room Database, Coroutines, Single Activity Architecture, Navigation Components, Safe Args, and Search View!
 
-The app supports 3 languages: Russian, English, and Portuguese
+The app supports 3 languages: Russian, English, and Portuguese.
 
 How to use it?
 
