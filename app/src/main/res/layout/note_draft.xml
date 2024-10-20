@@ -53,6 +53,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_content"
             tools:text="Simon" />
+        <ImageView
+            android:id="@+id/iv_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_content"
+            tools:srcCompat="@drawable/ic_star_full" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

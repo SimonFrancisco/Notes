@@ -2,6 +2,7 @@ package com.example.notes.presentation.recycleView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import com.example.notes.R
 import com.example.notes.domain.entity.Note
@@ -9,6 +10,7 @@ import com.example.notes.domain.entity.Note
 class NoteListAdapter : ListAdapter<Note, NoteViewHolder>(NoteDiffCallBack()) {
 
     var onNoteClickListener: ((Note) -> Unit)? = null
+    var onNoteLongClickListener: ((Note) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val layout = when (viewType) {
             NOTE_DRAFT -> {
@@ -33,11 +35,22 @@ class NoteListAdapter : ListAdapter<Note, NoteViewHolder>(NoteDiffCallBack()) {
             view.setOnClickListener {
                 onNoteClickListener?.invoke(note)
             }
+            view.setOnLongClickListener {
+                onNoteLongClickListener?.invoke(note)
+                true
+            }
             tvTopic.text = note.topic
             tvContent.text = note.content
             when (note.isDraft) {
                 true -> tvStatus.text = view.context.getString(R.string.note_draft)
                 false -> tvStatus.text = view.context.getString(R.string.note_saved)
+            }
+
+            val startOn = ContextCompat.getDrawable(view.context, R.drawable.ic_star_full)
+            val startOff = ContextCompat.getDrawable(view.context, R.drawable.ic_star_empty)
+            when (note.isFavourite) {
+                true -> ivStar.setImageDrawable(startOn)
+                false -> ivStar.setImageDrawable(startOff)
             }
         }
     }

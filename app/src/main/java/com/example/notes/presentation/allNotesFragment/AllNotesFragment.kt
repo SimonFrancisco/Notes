@@ -43,6 +43,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         observeViewModel()
         addNote()
         setUpOnClickListener()
+        setUpOnLongClickListener()
         setMenu()
     }
 
@@ -55,7 +56,6 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         noteListAdapter = NoteListAdapter()
         binding.rvNotes.setHasFixedSize(true)
         binding.rvNotes.adapter = noteListAdapter
-        //setUpSwipeListener(binding.rvNotes)
     }
 
     private fun observeViewModel() {
@@ -83,6 +83,12 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun setUpOnClickListener() {
         noteListAdapter.onNoteClickListener = {
             launchNoteFragment(Mode.EDIT, it.id)
+        }
+    }
+
+    private fun setUpOnLongClickListener() {
+        noteListAdapter.onNoteLongClickListener = {
+            viewModel.changeIsFavouriteState(note = it)
         }
     }
 
@@ -127,6 +133,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
     }
+
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
     }
@@ -144,12 +151,14 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         }
         return true
     }
+
     private fun searchNotesByTopic(noteTopic: String) {
         val searchNote = "%$noteTopic%"
         viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
             noteListAdapter.submitList(it)
         }
     }
+
     companion object {
         private const val DEFAULT_NOTE_ID = 0
     }
