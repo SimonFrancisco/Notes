@@ -4,8 +4,8 @@ This app supports 3 languages: Russian, English, and Portuguese
 The note is added or removed from favorites by pressing on it long enough, a star is used to let users know about the change. The back button makes a new or existing note change its state to draft, and the color of the note changes.
 
 <p align="center">
-  <img src= "https://github.com/user-attachments/assets/0ba5dc64-f119-4eb4-85a2-91bdbc8b2cfb" width="50%" height="50%" align="left"> 
-  <img src= "https://github.com/user-attachments/assets/18bbe92e-028b-4cdc-9218-fd73a200fac2" width="50%" height="50%" align="right">
+  <img src= "https://github.com/user-attachments/assets/0ba5dc64-f119-4eb4-85a2-91bdbc8b2cfb" align="left"> 
+  <img src= "https://github.com/user-attachments/assets/18bbe92e-028b-4cdc-9218-fd73a200fac2" align="right">
 </p>
 <img src= "https://github.com/user-attachments/assets/ddc6ebed-c613-4843-95d2-71c8177280a6" width="50%" height="50%">
 
