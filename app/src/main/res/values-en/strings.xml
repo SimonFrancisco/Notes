@@ -6,4 +6,17 @@
     <string name="topic">Topic:</string>
     <string name="content">Content:</string>
     <string name="save_note">Save note</string>
+    <string name="search">Search</string>
+    <string name="note_draft">Draft</string>
+    <string name="note_saved">Saved</string>
+    <string name="delete_note">Delete note</string>
+    <string name="delete_confirmation">Do you really want to delete this note?</string>
+    <string name="delete_button_alert">Delete</string>
+    <string name="cancel_button_alert">Cancel</string>
+    <string name="bottom_favourites_label">My favourites</string>
+    <string name="notes_action_bar">Notes</string>
+    <string name="edit_note_action_bar">Edit note</string>
+    <string name="add_note_action_bar">Add note</string>
+    <string name="my_favourites_action_bar">My favourites</string>
+
 </resources>

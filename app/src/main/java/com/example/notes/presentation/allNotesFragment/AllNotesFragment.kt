@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.notes.R
 import com.example.notes.databinding.FragmentAllNotesBinding
 import com.example.notes.domain.entity.Mode
+import com.example.notes.presentation.MainActivity
 import com.example.notes.presentation.recycleView.NoteListAdapter
 
 class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -163,6 +164,12 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
         viewModel.searchNotesByTopic(searchNote).observe(viewLifecycleOwner) {
             noteListAdapter.submitList(it)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).supportActionBar?.title =
+            getString(R.string.notes_action_bar)
     }
 
     companion object {

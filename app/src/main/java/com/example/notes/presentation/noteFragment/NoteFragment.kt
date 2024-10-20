@@ -20,6 +20,7 @@ import com.example.notes.R
 import com.example.notes.databinding.FragmentNoteBinding
 import com.example.notes.domain.entity.Mode
 import com.example.notes.domain.entity.Note
+import com.example.notes.presentation.MainActivity
 
 
 class NoteFragment : Fragment() {
@@ -60,6 +61,20 @@ class NoteFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        when(mode){
+            Mode.EDIT -> {
+                (requireActivity() as MainActivity).supportActionBar?.title =
+                    getString(R.string.edit_note_action_bar)
+            }
+            Mode.ADD ->{
+                (requireActivity() as MainActivity).supportActionBar?.title =
+                    getString(R.string.add_note_action_bar)
+            }
+        }
     }
 
     private fun launchMode() {

@@ -8,8 +8,10 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.notes.R
 import com.example.notes.databinding.FragmentFavouriteNotesBinding
 import com.example.notes.domain.entity.Mode
+import com.example.notes.presentation.MainActivity
 import com.example.notes.presentation.recycleView.NoteListAdapter
 
 class FavouriteNotesFragment : Fragment() {
@@ -40,6 +42,12 @@ class FavouriteNotesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).supportActionBar?.title =
+            getString(R.string.my_favourites_action_bar)
     }
     private fun setUpRecyclerView() {
         noteListAdapter = NoteListAdapter()
