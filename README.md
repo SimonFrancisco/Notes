@@ -6,7 +6,7 @@ The app supports 3 languages: Russian, English, and Portuguese.
 
 How to use it?
 
-The note is added or removed from favorites by pressing on it long enough, a star is used to let users know about the change. The back button makes a new or existing note change its state to draft, and the color of the note changes.
+The note is added or removed from favorites by pressing on it long enough, a star is used to let users know about the change. The back button makes a new or existing note change its state to "draft", and the color of the note changes to show that. The save button changes the state of a new or edited note to "saved".
 
 <p align="center">
   <img src= "https://github.com/user-attachments/assets/0ba5dc64-f119-4eb4-85a2-91bdbc8b2cfb" width="45%" height="45%"align="left"> 
