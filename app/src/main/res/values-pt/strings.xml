@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lembretes</string>
+    <string name="no_notes">Sem lembretes!</string>
+    <string name="add_note">Adicionar lembrete</string>
+    <string name="topic">Tema:</string>
+    <string name="content">Conteúdo:</string>
+    <string name="save_note">Salvar lembrete</string>
+    <string name="search">Busca</string>
+    <string name="note_draft">Rascunho</string>
+    <string name="note_saved">Guardado</string>
+    <string name="delete_note">Apagar lembrete</string>
+    <string name="delete_confirmation">Quer mesmo apagar esse lembrete?</string>
+    <string name="delete_button_alert">Apagar</string>
+    <string name="cancel_button_alert">Cancelar</string>
+    <string name="bottom_favourites_label">Favoritos</string>
+    <string name="notes_action_bar">Lembretes</string>
+    <string name="edit_note_action_bar">Editar lembrete</string>
+    <string name="add_note_action_bar">Criar lembrete</string>
+    <string name="my_favourites_action_bar">Favoritos</string>
+
+</resources>

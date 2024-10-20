@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">Заметки</string>
+    <string name="no_notes">Нет заметок!</string>
+    <string name="add_note">Добавить заметку</string>
+    <string name="topic">Тема:</string>
+    <string name="content">Содержание:</string>
+    <string name="save_note">Сохранить заметку</string>
+    <string name="search">Поиск</string>
+    <string name="note_draft">Черновик</string>
+    <string name="note_saved">Сохранено</string>
+    <string name="delete_note">Удалить заметку</string>
+    <string name="delete_confirmation">Точно хотите удалить эту заметку?</string>
+    <string name="delete_button_alert">Удалить</string>
+    <string name="cancel_button_alert">Отмена</string>
+    <string name="bottom_favourites_label">Избранные</string>
+    <string name="notes_action_bar">Заметки</string>
+    <string name="edit_note_action_bar">Отредактировать заметку</string>
+    <string name="add_note_action_bar">Создать заметку</string>
+    <string name="my_favourites_action_bar">Избранные</string>
 </resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/allNotesFragment">
+
+    <fragment
+        android:id="@+id/allNotesFragment"
+        android:name="com.example.notes.presentation.allNotesFragment.AllNotesFragment"
+        android:label="Notes"
+        tools:layout="@layout/fragment_all_notes">
+        <action
+            android:id="@+id/action_allNotesFragment_to_noteFragment"
+            app:destination="@id/noteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_allNotesFragment_to_favouriteNotes"
+            app:destination="@id/favouriteNotes"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="com.example.notes.presentation.noteFragment.NoteFragment"
+        android:label="Edit/Create Note"
+        tools:layout="@layout/fragment_note">
+        <action
+            android:id="@+id/action_noteFragment_to_allNotesFragment"
+            app:destination="@id/allNotesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/noteFragment" />
+        <argument
+            android:name="mode"
+            app:argType="com.example.notes.domain.entity.Mode" />
+        <argument
+            android:name="noteId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteNotes"
+        android:name="com.example.notes.presentation.favouriteNotesFragment.FavouriteNotesFragment"
+        android:label="Favourite Notes"
+        tools:layout="@layout/fragment_favourite_notes">
+        <action
+            android:id="@+id/action_favouriteNotes_to_noteFragment"
+            app:destination="@id/noteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/noteFragment" />
+        <action
+            android:id="@+id/action_favouriteNotes_to_allNotesFragment"
+            app:destination="@id/allNotesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/allNotesFragment" />
+    </fragment>
+</navigation>
