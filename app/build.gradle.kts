@@ -5,8 +5,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kapt)
-
-
 }
 
 android {

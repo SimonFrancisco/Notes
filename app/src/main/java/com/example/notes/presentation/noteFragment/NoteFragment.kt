@@ -65,12 +65,17 @@ class NoteFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        when(mode){
+        changeActionBarTitle()
+    }
+
+    private fun changeActionBarTitle() {
+        when (mode) {
             Mode.EDIT -> {
                 (requireActivity() as MainActivity).supportActionBar?.title =
                     getString(R.string.edit_note_action_bar)
             }
-            Mode.ADD ->{
+
+            Mode.ADD -> {
                 (requireActivity() as MainActivity).supportActionBar?.title =
                     getString(R.string.add_note_action_bar)
             }

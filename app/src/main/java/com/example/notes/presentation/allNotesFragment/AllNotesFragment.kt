@@ -149,7 +149,7 @@ class AllNotesFragment : Fragment(), SearchView.OnQueryTextListener {
 
         if (newText != null && view != null) {
             /***
-             * Check whether view is null because an empty string is sent searchNotesByTopic
+             * Check whether view is null because an empty string is sent to searchNotesByTopic
              * when element on the list is clicked,
              * at this moment onDestroyView is called and therefore viewLifecycleOwner
              * stops existing, this leads to bags in this particular case when observing LiveData.
